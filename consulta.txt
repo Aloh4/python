@@ -565,9 +565,11 @@ Módulos:
 			import requests as r 
 			r.get('http://www.uol.com.br')
 		#3 - Importa apenas o método get, do módulo requests
-			from requests import get 
+			from requests import get
+			get('http://uol.com.br')
 		#4 - Importa os métodos get e post do módulo requests
 			from requests import get,post 
 		#5 - Importa o método get do módulo requests renomeando-o para g.
 			from requests import get as g
+			g('http://uol.com.br')
 
