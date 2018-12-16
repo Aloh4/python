@@ -432,7 +432,7 @@ Manipulando strings:
 		isalpha() 	- Somente letras, não vazia
 		isnum()   	- Somente letras e números, não vazia
 		isdecimal() - Somente números, não vazia
-		isspace() 	- Somente espaço, tabulações e quetras de linha, não vazia
+		isspace() 	- Somente espaço, tabulações e quebras de linha, não vazia
 		istitle() 	- Somente strings que tenham a primeira letra em maiúsculo e o restante minúsculo.
 		startswith()- Verifica se a string começa com a string informada
 		endswith()	- Verifica se a sintrg termina com a string informada
@@ -440,7 +440,7 @@ Manipulando strings:
 		split()		- Dividir string e gerar lista
 		rstrip()	- Remove espaço da direita
 		lstrip()	- Remove espaço da esquerda
-		strip()		- Remove espaços ou string em ambos os lados
+		strip()		- Remove espaços em ambos os lados
 -------------------------------------------------------
 Funções:
 	#Variáveis dentro de funções são locais, não globais.
@@ -548,7 +548,7 @@ Funções:
 			>>> conta(0)
 			integer division or modulo by zero
 -------------------------------------------------------
-Módulos:
+Módulos(request):
 
 	#Para instalar módulos no python é necessário instalar o pip.
 		curl https://bootstrap.pypa.io/get-pip.py | python
@@ -572,4 +572,274 @@ Módulos:
 		#5 - Importa o método get do módulo requests renomeando-o para g.
 			from requests import get as g
 			g('http://uol.com.br')
+-------------------------------------------------------
+Módulos(os):
+	
+	#Interface para ações do OS
+
+	Utilização:
+		import os
+
+	Métodos:
+		os.path.join()		#Cria o path mantendo compatibilidade do código
+			#Exemplo(linux):
+				os.path.join('/root','Documents')
+				...output ->'/root/Documents'
+			#Exemplo(windows):
+				os.path.join('C','Documents')
+				...output ->'C:/Documents'
+			#Utilizando listas
+				files = ['teste1','teste2','teste3']
+				for file in files:
+					print os.path.join('/root','Documents')
+				
+				/root/Documents
+				/root/Documents
+				/root/Documents
+		os.getcwd()			#Exibe o diretório atual
+			os.getcwd()
+			/root/Documents/Python
+		os.chdir()			#Trocar de diretório
+			os.chdir('/root/Documents')
+			os.getcwd()
+			'/root/Documents'
+		os.makedirs()		#Cria diretórios // Pode-se passar o path
+			os.makedirs('teste')
+			os.listdir(os.getcwd())
+			['consulta.txt', 'First.py', 'testes.py', 'teste']
+		os.path.abspath()	#Retorna o path absoluto
+			os.path.abspath('/root')
+			'/root'
+		os.path.isabs()		#Retorna True se o path for absoluto
+			os.path.isabs('/root/Documents/')
+			True
+			os.path.isabs('../')
+			False
+		os.path.relpath()	#Retorna o path relativo dado um início
+			os.getcwd()
+			'/root'
+			os.path.relpath('/var')
+			'../var'
+		os.path.dirname()	#Retorna uma string com tudo antes da última barra
+			os.path.dirname('/root/Documents/general/commands/Python/First.py')
+			'/root/Documents/general/commands/Python'
+		os.path.basename()	#Retorna um string com tudo depois da última barra
+			os.path.basename('/root/Documents/general/commands/Python/First.py')
+			'First.py'
+		os.path.split()		#Retorna Tupla com dirname e basename
+			os.path.split('/root/Documents/general/commands/Python/First.py')
+			('/root/Documents/general/commands/Python', 'First.py')
+		os.path.sep()		#Remove as barras
+			os.path.sep
+			'/'
+			os.getcwd().split(os.path.sep)
+			['', 'root', 'Documents', 'general', 'commands', 'Python']
+		os.path.getsize()	#Retorna o tamanho do path em bytes
+			os.listdir(os.getcwd())
+			['consulta.txt', 'First.py', 'testes.py', 'teste']
+			os.path.getsize('consulta.txt')
+			18409 #bytes
+		os.listdir()		#Retorna lista de string com o nome de arquivos e diretórios
+			os.listdir('.')
+			['teste1', '1.txt', 'teste2', '2.txt', 'teste3']
+			os.listdir(os.getcwd())
+			['consulta.txt', 'First.py', 'testes.py', 'teste']
+		os.path.exists()	#Retorna True se o arquivo ou diretório existir
+			os.path.exists('/root/Documents/teste.txt')
+			False
+		os.path.isdir()		#Retorna True se o path for referente a um diretório
+			os.path.isdir('/root/Documents/')
+			True
+		os.path.isfile()	#Retorna True se o path for referente a um arquivo
+			os.path.isfile('/root/Documents/')
+			False
+	#Listagem de arquivos recursiva -- ls -R
+		import os
+		for pasta, subpastas, arquivos in os.walk('/root/teste_main/'):
+			print 'Pasta atual %s' %pasta
+			for subpasta in subpastas:
+				print '\t%s/%s' %(pasta,subpasta)
+			for arquivo in arquivos:
+				print '\t%s/%s' %(pasta,arquivo)
+
+		#Saída
+		root@:~# python /root/Python/testes.py
+			Pasta atual /root/teste_main/
+				/root/teste_main/teste1
+				/root/teste_main/teste2
+				/root/teste_main/teste3
+				/root/teste_main/1.txt
+				/root/teste_main/2.txt
+			Pasta atual /root/teste_main/teste1
+				/root/teste_main/teste1/3.txt
+			Pasta atual /root/teste_main/teste2
+				/root/teste_main/teste2/4.txt
+			Pasta atual /root/teste_main/teste3
+				/root/teste_main/teste3/5.txt
+
+-------------------------------------------------------
+Ler arquivos:
+
+	#Abrindo arquivos
+		f = open('log.txt')
+		type(f)
+		type <'file'>
+	#Lendo arquivos com read()
+		f.read()
+		f = f.read()	#Realiza apenas a leitura
+		>>> f
+		'0   (NOERROR)  No error; successful update.\n1   (FORMERR)  Format error; DNS server did not understand the update request.\n0x2 (SERVFAIL) DNS server encountered an internal error, such as a forwarding timeout\n0x3 (NXDOMAIN) A name that should exist does not exist.\n0x4 (NOTIMP)   DNS server does not support the specified Operation code.\n0x5 (REFUSED)  DNS server refuses to perform the update because\n0x6 (YXDOMAIN) A name that should not exist does exist.\n0x7 (YXRRSET)  A resource record set that should not exist does exist.\n0x8 (NXRRSET)  A resource record set that should exist does not exist.\n0x9 (NOTAUTH)  DNS server is not authoritative for the zone named in the Zone section.\n0xA (NOTZONE)  A name used in the Prerequisite or Update sections is not within the zone specified by'
+	#Lendo arquivos com readlines() -- Retorna o arquivo em uma lista
+		f.readlines()
+		f = f.readlines()   #Neste exemplo funcionou
+		>>> f
+		['0   (NOERROR)  No error; successful update.\n', '1   (FORMERR)  Format error; DNS server did not understand the update request.\n', '0x2 (SERVFAIL) DNS server encountered an internal error, such as a forwarding timeout\n', '0x3 (NXDOMAIN) A name that should exist does not exist.\n', '0x4 (NOTIMP)   DNS server does not support the specified Operation code.\n', '0x5 (REFUSED)  DNS server refuses to perform the update because\n', '0x6 (YXDOMAIN) A name that should not exist does exist.\n', '0x7 (YXRRSET)  A resource record set that should not exist does exist.\n', '0x8 (NXRRSET)  A resource record set that should exist does not exist.\n', '0x9 (NOTAUTH)  DNS server is not authoritative for the zone named in the Zone section.\n', '0xA (NOTZONE)  A name used in the Prerequisite or Update sections is not within the zone specified by']
+	#Atribuindo para outra variável:	
+		#O método correto para se declarar em outra variável é:
+			#f = open('arquivo.txt').read() // readlines()
+			#var = f
+		log = f.read() 		#Utilizando variável com outro nome não funcinou
+		f = f.readlines()   #Neste exemplo funcionou
+		>>> f
+			['0   (NOERROR)  No error; successful update.\n', '1   (FORMERR)  Format error; DNS server did not understand the update request.\n', '0x2 (SERVFAIL) DNS server encountered an internal error, such as a forwarding timeout\n', '0x3 (NXDOMAIN) A name that should exist does not exist.\n', '0x4 (NOTIMP)   DNS server does not support the specified Operation code.\n', '0x5 (REFUSED)  DNS server refuses to perform the update because\n', '0x6 (YXDOMAIN) A name that should not exist does exist.\n', '0x7 (YXRRSET)  A resource record set that should not exist does exist.\n', '0x8 (NXRRSET)  A resource record set that should exist does not exist.\n', '0x9 (NOTAUTH)  DNS server is not authoritative for the zone named in the Zone section.\n', '0xA (NOTZONE)  A name used in the Prerequisite or Update sections is not within the zone specified by']
+	#Tratando a saída do arquivo
+		f = open('log.txt')
+		f = f.readlines()
+		for valor in f:
+			if not valor.isspace():	#Se o valor não for 'isspace'
+				print valor.strip() 
+		
+		0   (NOERROR)  No error; successful update.
+		1   (FORMERR)  Format error; DNS server did not understand the update request.
+		0x2 (SERVFAIL) DNS server encountered an internal error, such as a forwarding timeout
+		0x3 (NXDOMAIN) A name that should exist does not exist.
+		0x4 (NOTIMP)   DNS server does not support the specified Operation code.
+		0x5 (REFUSED)  DNS server refuses to perform the update because
+		0x6 (YXDOMAIN) A name that should not exist does exist.
+		0x7 (YXRRSET)  A resource record set that should not exist does exist.
+		0x8 (NXRRSET)  A resource record set that should exist does not exist.
+		0x9 (NOTAUTH)  DNS server is not authoritative for the zone named in the Zone section.
+		0xA (NOTZONE)  A name used in the Prerequisite or Update sections is not within the zone specified by
+-------------------------------------------------------
+Escrever Arquivos:
+
+	Métodos:
+		w - write 	#Escrita
+		a - append 	#Adição
+		r - read	#Leitura (built in)
+		b - binary	#Binário
+
+	#Exemplo1 - Write
+		f = open('teste.txt','w')
+		f.write('Hello World')
+		f.close()
+		f = open('teste.txt','r')
+		f.read()
+		'Hello World'
+	#Exemplo2 - Write
+		f = open('teste.txt','w')
+		f.write('Hello World')
+		f.close()
+		f = open('teste.txt').read()
+		f
+		'Hello World'
+	#Exemplo3 - Append
+		f = open('teste.txt','a')
+		f.write('Hello World, again.')
+		f.close()
+		f = open('teste.txt').read()
+		f
+		'Hello World\nHello World, again.'
+	#Exemplo4 - Binário
+		import requests
+		url = 'https://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/'
+		r = requests.get(url)
+		f = open('saida.exe','ab')
+		f.write(r.content)
+		f.close()
+
+		root@:~# ls
+		saida.exe
+		root@:~# file saida.exe 
+		saida.exe: PE32 executable (GUI) Intel 80386, for MS Windows
+-------------------------------------------------------
+Organizar Arquivos:
+
+		Métodos:
+		shutil.copy()	#Copia arquivos -- Pode-se passar outro diretório para o arquivo destino
+			os.listdir('.')
+			['teste1', '1.txt', 'teste2', '2.txt', 'teste3']
+			shutil.copy('1.txt','1.1.txt')
+			os.listdir('.')
+			['teste1', '1.1.txt', '1.txt', 'teste2', '2.txt', 'teste3']
+		shutil.move()	#Move ou sobescreve arquivos
+			shutil.copy('1.txt','1.1.txt')
+			os.listdir('.')
+			['teste1', '1.1.txt', '1.txt', 'teste2', '2.txt', 'teste3']
+			shutil.move('1.1.txt','1.2.txt')
+			os.listdir('.')
+			['teste1', '1.txt', '1.2.txt', 'teste2', '2.txt', 'teste3']
+			shutil.move('1.2.txt','teste1')
+			os.listdir('.')
+			['teste1', '1.txt', 'teste2', '2.txt', 'teste3']
+			os.listdir('teste1')
+			['3.txt', '1.2.txt']
+		os.unlink()		#Apaga arquivos
+			os.listdir('.')
+			['teste1', '1.txt', 'teste2', '2.txt', 'teste3']
+			os.unlink('1.txt')
+			os.listdir('.')
+			['teste1', 'teste2', '2.txt', 'teste3']
+		os.rmdir()		#Apaga diretórios vazios
+			os.rmdir('teste')
+
+			Traceback (most recent call last):
+  			File "<stdin>", line 1, in <module>
+			OSError: [Errno 2] No such file or directory: 'teste'
+
+			os.unlink('teste1/3.txt')
+			os.unlink('teste1/1.2.txt')
+			os.rmdir('teste')
+			os.listdir('.')
+			['teste1', 'teste2', '2.txt', 'teste3']
+			os.rmdir('teste1')
+			os.listdir('.')
+			['teste2', '2.txt', 'teste3']
+		shutil.rmtree()	#Apaga diretório e seu conteúdo
+			os.listdir('.')
+			['2.txt', 'teste3']
+			os.listdir('teste3')
+			['5.txt']
+			shutil.rmtree('teste3')
+			os.listdir('.')
+			['2.txt']
+-------------------------------------------------------
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
 
