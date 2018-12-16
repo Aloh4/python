@@ -1,5 +1,5 @@
 Tipos de dados:
-	Int			= 1, 2, 3
+	Int		= 1, 2, 3
 	Float		= 1.1, 2.2, 3.3
 	String		= 'Texto'
 	Booleano	= True, False
