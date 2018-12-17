@@ -839,7 +839,6 @@ Arquivos zipados:
 		file4
 		file5
 	#Exemplo2 - Lendo arquivos zipados(2)
-		
 		info = zipado.getinfo('file4')	#Lê informação dos arquivos zipados
 		info.file_size					#Retorna o tamanho do arquivo em bytes	
 		0
