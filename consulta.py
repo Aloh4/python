@@ -679,6 +679,8 @@ Módulos(os):
 
 -------------------------------------------------------
 Ler arquivos:
+	
+	#Esse método é Built-in
 
 	#Abrindo arquivos
 		f = open('log.txt')
@@ -723,6 +725,8 @@ Ler arquivos:
 -------------------------------------------------------
 Escrever Arquivos:
 
+	#Esse método é Built-in
+
 	Métodos:
 		w - write 	#Escrita
 		a - append 	#Adição
@@ -764,6 +768,9 @@ Escrever Arquivos:
 		saida.exe: PE32 executable (GUI) Intel 80386, for MS Windows
 -------------------------------------------------------
 Organizar Arquivos:
+
+	Utilização:
+		import shutil
 
 		Métodos:
 		shutil.copy()	#Copia arquivos -- Pode-se passar outro diretório para o arquivo destino
@@ -814,6 +821,53 @@ Organizar Arquivos:
 			os.listdir('.')
 			['2.txt']
 -------------------------------------------------------
+Arquivos zipados:
+
+	import zipfile
+	import os
+
+	#Exemplo1 - Lendo arquivos zipados
+		import zipfile
+		os.listdir('.')
+		['file1', 'teste1', 'file3', 'file4', 'teste2', 'backup.zip', 'file5', 'teste3', 'file2']
+		zipado = zipfile.ZipFile('backup.zip')
+		zipado.namelist()
+		['file4', 'file5']
+		for file in zipado.namelist():
+		    print file
+		... 
+		file4
+		file5
+	#Exemplo2 - Lendo arquivos zipados(2)
+		
+		info = zipado.getinfo('file4')	#Lê informação dos arquivos zipados
+		info.file_size					#Retorna o tamanho do arquivo em bytes	
+		0
+		info.compress_size				#Retorna o tamanho do arquivo zipado
+		0
+	#Exemplo3 - Extraindo arquivos
+		import zipfile
+		zipado = zipfile.ZipFile('backup.zip')
+
+		zipado.extractall()					#Extrai todos os arquivos
+			os.listdir('.')
+			['backup.zip']
+			zipado.extractall()
+			os.listdir('.')
+			['backup.zip', 'file4', 'file5']
+		zipado.extract('file')				#Extrai apenas um arquivo
+		zipado.extract('file','/destino')	#Extrai arquivo no diretório X
+			zipado.extract('file4','new_dir')
+			'new_dir/file4'
+			os.listdir('.')
+			['backup.zip', 'new_dir']		
+	#Exemplo4 - Adicionar arquivos ao arquivo zipado
+	
+	#Desafio
+
+		#Apontar o diretório de backup
+		#Pegar arquivo por extensão
+		#Mandar o backup para outro diretório
 
 -------------------------------------------------------
 -------------------------------------------------------
