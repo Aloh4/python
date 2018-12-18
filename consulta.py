@@ -861,13 +861,22 @@ Arquivos zipados:
 			os.listdir('.')
 			['backup.zip', 'new_dir']		
 	#Exemplo4 - Adicionar arquivos ao arquivo zipado
-	
-	#Desafio
+		import zipfile
+		zipado = zipfile.ZipFile('backup.zip','w')	#Escreve o arquivo dentro do arquivo .zip 'sobescreve'.
+		zipado.write('file2')
+		zipado.close()
+		zipado.namelist()
+		['file2']
+		zipado = zipfile.ZipFile('backup.zip','a')	#Adiciona arquivo aos arquivo zipado.
+		zipado.write('file1')	
+		zipado.close()
+		zipado.namelist()
+		['file2', 'file1']
 
+	#Desafio
 		#Apontar o diretório de backup
 		#Pegar arquivo por extensão
 		#Mandar o backup para outro diretório
-
 -------------------------------------------------------
 -------------------------------------------------------
 -------------------------------------------------------
